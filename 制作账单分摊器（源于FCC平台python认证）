@@ -1,0 +1,32 @@
+（源于个人通关freecodecampPython认证总结并备注标注优化）
+# ================================
+# 账单分摊计算器 - 财会场景应用
+# ================================
+
+# 初始化累计金额
+running_total = 0
+
+# 分摊人数（就餐人数）
+num_of_friends = 4
+
+# 各项消费明细（单位：元）
+appetizers = 37.89      # 前菜/开胃菜
+main_courses = 57.34    # 主菜
+desserts = 39.39        # 甜点
+drinks = 64.21          # 饮品
+
+# 计算消费总额（不含小费）
+running_total += appetizers + main_courses + desserts + drinks
+print('Total bill so far:', running_total)
+
+# 计算小费（按消费总额的 25% 计算）
+tip = running_total * 0.25
+print('Tip amount:', tip)
+
+# 计算含小费的总金额
+running_total += tip
+print('Total with tip:', running_total)
+
+# 计算人均分摊金额（保留 2 位小数，符合货币精度规范）
+final_bill = round(running_total / num_of_friends, 2)
+print('Bill per person:', final_bill)
