@@ -1,0 +1,63 @@
+（源于个人通关freecodecampPython认证总结并备注标注优化）
+============================================================================
+模块：电影票预订计算器 - 最终价格计算
+功能：根据基础票价、附加费用、服务费和折扣计算最终票务价格
+业务规则：最终价格 = 基础票价 + 附加费用 + 服务费 - 折扣
+============================================================================
+
+---------------------- 基础票价与输入变量定义 ----------------------
+base_price = 15  # 基础票价（元）：标准座位的基准价格
+age = 21  # 用户年龄（岁）：用于资格验证和折扣判定
+seat_type = 'Gold'  # 座位类型：'Premium'/'Gold'/'Standard'，影响服务费
+show_time = 'Evening'  # 放映时段：'Evening'/'Matinee'等，影响附加费用
+
+---------------------- 年龄资格验证 ----------------------
+业务规则：年满18岁方可购票，21岁以上可观看晚间场次
+if age > 17:
+    print('User is eligible to book a ticket')  # 用户符合购票年龄资格
+
+if age >= 21:
+    print('User is eligible for Evening shows')  # 用户符合晚间场次观看资格
+else:
+    print('User is not eligible for Evening shows')  # 用户不符合晚间场次观看资格
+
+---------------------- 会员折扣计算 ----------------------
+is_member = False  # 会员标识：True表示注册用户，可享受会员折扣
+is_weekend = False  # 周末标识：True表示周末观影，可能产生附加费用
+
+discount = 0  # 折扣金额（元）：初始化为0，符合条件时累加
+if is_member and age >= 21:
+    discount = 3  # 会员折扣：注册会员且年满21岁可减免3元
+    print('User qualifies for membership discount')  # 用户符合会员折扣条件
+else:
+    print('User does not qualify for membership discount')  # 用户不符合会员折扣条件
+print('Discount:', discount)  # 输出折扣金额
+
+---------------------- 附加费用计算 ----------------------
+extra_charges = 0  # 附加费用（元）：周末或晚间场次产生的额外费用
+if is_weekend or show_time == 'Evening':
+    extra_charges = 2  # 附加费标准：周末或晚间场次加收2元
+    print('Extra charges will be applied')  # 将收取附加费用
+else:
+    print('No extra charges will be applied')  # 不收取附加费用
+print('Extra charges:', extra_charges)  # 输出附加费用金额
+
+---------------------- 服务费计算与最终价格 ----------------------
+业务规则：需满足购票条件方可计算服务费和最终价格
+if age >= 21 or age >= 18 and (show_time != 'Evening' or is_member):
+    print('Ticket booking condition satisfied')  # 用户符合票务预订条件
+
+    service_charges = 0  # 服务费（元）：根据座位等级收取
+    if seat_type == 'Premium':
+        service_charges = 5  # 豪华座位服务费：5元
+    elif seat_type == 'Gold':
+        service_charges = 3  # 黄金座位服务费：3元
+    else:
+        service_charges = 1  # 标准座位服务费：1元
+    print('Service charges:', service_charges)  # 输出服务费金额
+    
+    # 最终价格计算公式：基础票价 + 附加费用 + 服务费 - 折扣
+    final_price = base_price + extra_charges + service_charges - discount
+    print("Final price of ticket:", final_price)  # 输出最终票务价格
+else:
+    print('Ticket booking failed due to restrictions')  # 因限制条件购票失败
